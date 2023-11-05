@@ -49,6 +49,6 @@ public class SetTest {
 	@CsvSource(value = {"1:true", "2:true", "3:true", "4:false", "5:false"}, delimiter = ':')
 	void testSetContainsUsingAssertEquals(String input, String expected) throws Exception {
 		boolean contains = testSet.contains(Integer.valueOf(input));
-	    assertEquals(String.valueOf(contains), expected);
+	    assertEquals(expected, String.valueOf(contains));
 	}
 }
