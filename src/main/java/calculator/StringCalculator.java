@@ -1,58 +1,24 @@
 package calculator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import exception.WrongNumberFormatException;
 
 public class StringCalculator {
-	public static class FastReader {
-		BufferedReader br;
-		StringTokenizer st;
-
-		public FastReader() {
-			br = new BufferedReader(new InputStreamReader(System.in));
-		}
-
-		String next() {
-			while (st == null || !st.hasMoreElements()) {
-				try {
-					st = new StringTokenizer(br.readLine());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			return st.nextToken();
-		}
-
-		int nextInt() {
-			return Integer.parseInt(next());
-		}
-
-		double nextDouble() {
-			return Double.parseDouble(next());
-		}
-
-		long nextLong() {
-			return Long.parseLong(next());
-		}
-	}
-
 	public static ArrayList<String> inputFilter(String input) {
 		ArrayList<String> inputList = new ArrayList<>();
 		boolean custom = false;
 		String delimiter = "";
-		String replaced = "";
 
-		if (input.isEmpty()) {
+		if (input == null) {
 			inputList.add("0");
 			return inputList;
 		}
+		String replaced = input;
 
 		if (input.startsWith("//")) {
 			int startIndex = input.indexOf("//");
@@ -78,10 +44,36 @@ public class StringCalculator {
 		return inputList;
 	}
 
+	public static int testMain(List<String> inputList) throws WrongNumberFormatException{
+		int result = 0;
+		boolean accept = true;
+		for (String s : inputList) {
+			accept = true;
+			if (s.isEmpty()) {
+				continue;
+			}
+			for (int i = 0; i < s.length(); i++) {
+				char c = s.charAt(i);
+				if (!Character.isDigit(c)) {
+					accept = false;
+					break;
+				}
+			}
+
+			if (!accept) {
+				throw new WrongNumberFormatException("잘못된 입력 타입입니다.");
+			} else {
+				result += Integer.parseInt(s);
+			}
+		}
+		return result;
+	}
+
+
 	public static void main(String[] args) throws WrongNumberFormatException {
-		FastReader fastReader = new FastReader();
+		Scanner sc = new Scanner(System.in);
 		while (true) {
-			String input = fastReader.next();
+			String input = sc.next();
 			if (input.equals("off")) {
 				break;
 			}
@@ -101,7 +93,7 @@ public class StringCalculator {
 				}
 
 				if (!accept) {
-					throw new WrongNumberFormatException();
+					throw new WrongNumberFormatException("잘못된 입력 타입입니다.");
 				} else {
 					result += Integer.parseInt(s);
 				}
